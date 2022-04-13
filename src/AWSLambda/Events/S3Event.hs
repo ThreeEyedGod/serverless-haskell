@@ -117,7 +117,7 @@ isCreateEvent e = case _senEventName e of
   Event_S3_ObjectCreated_Copy -> True
   Event_S3_ObjectCreated_Post -> True
   Event_S3_ObjectCreated_Put -> True
-  Event_S3_ObjectRemoved -> False
+  Event_S3_ObjectRemoved__ -> False
   Event_S3_ObjectRemoved_Delete -> False
   Event_S3_ObjectRemoved_DeleteMarkerCreated -> False
   Event_S3_ReducedRedundancyLostObject -> False
@@ -130,7 +130,7 @@ isRemoveEvent e = case _senEventName e of
   Event_S3_ObjectCreated_Copy -> False
   Event_S3_ObjectCreated_Post -> False
   Event_S3_ObjectCreated_Put -> False
-  Event_S3_ObjectRemoved -> True
+  Event_S3_ObjectRemoved__ -> True
   Event_S3_ObjectRemoved_Delete -> True
   Event_S3_ObjectRemoved_DeleteMarkerCreated -> True
   Event_S3_ReducedRedundancyLostObject -> False
