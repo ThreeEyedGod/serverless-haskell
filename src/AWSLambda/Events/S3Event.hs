@@ -134,3 +134,26 @@ isRemoveEvent e = case _senEventName e of
   S3ObjectRemovedDelete -> True
   S3ObjectRemovedDeleteMarkerCreated -> True
   S3ReducedRedundancyLostObject -> False
+  
+  
+  
+  Event
+      ( ..,
+        Event_S3_ObjectCreated_CompleteMultipartUpload,
+        Event_S3_ObjectCreated_Copy,
+        Event_S3_ObjectCreated_Post,
+        Event_S3_ObjectCreated_Put,
+        Event_S3_ObjectCreated__,
+        Event_S3_ObjectRemoved_Delete,
+        Event_S3_ObjectRemoved_DeleteMarkerCreated,
+        Event_S3_ObjectRemoved__,
+        Event_S3_ObjectRestore_Completed,
+        Event_S3_ObjectRestore_Post,
+        Event_S3_ObjectRestore__,
+        Event_S3_ReducedRedundancyLostObject,
+        Event_S3_Replication_OperationFailedReplication,
+        Event_S3_Replication_OperationMissedThreshold,
+        Event_S3_Replication_OperationNotTracked,
+        Event_S3_Replication_OperationReplicatedAfterThreshold,
+        Event_S3_Replication__
+      ),
