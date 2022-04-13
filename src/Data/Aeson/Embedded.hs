@@ -13,7 +13,7 @@ import           Control.Lens.TH
 import           Data.Aeson
 import qualified Data.ByteString.Lazy as LBS
 import           Data.Text.Encoding    (decodeUtf8, encodeUtf8)
-import           Network.AWS.Data.Text (FromText (..), ToText (..), fromText,
+import           Amazonka.Data.Text (FromText (..), ToText (..), fromText,
                                         takeText)
 
 -- | Type for a JSON value embedded within a JSON string value
