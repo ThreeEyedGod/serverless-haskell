@@ -18,8 +18,8 @@ import           Data.Aeson.Casing        (aesonDrop, camelCase)
 import           Data.Aeson.TH            (deriveFromJSON)
 import           Data.Text                (Text)
 import           Data.Time.Clock          (UTCTime)
-import           Network.AWS.S3           (BucketName, ETag, Event(..), ObjectKey, ObjectVersionId)
-import qualified Network.AWS.Types        as AWS
+import           Amazonka.S3           (BucketName, ETag, Event(..), ObjectKey, ObjectVersionId)
+import qualified Amazonka.Types        as AWS
 
 import           AWSLambda.Events.Records
 import           AWSLambda.Orphans        ()
