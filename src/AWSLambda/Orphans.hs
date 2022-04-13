@@ -22,6 +22,7 @@ deriving instance FromJSON S3.ObjectVersionId
 instance FromJSON S3.ETag where
   parseJSON = withText "ETag" $ either fail return . fromText
 
+{--
 instance FromJSON S3.Event where
   parseJSON = withText "Event" $ either fail return . fromText . addS3Prefix
     where
@@ -30,3 +31,4 @@ instance FromJSON S3.Event where
         if s3Prefix `Text.isPrefixOf` s
           then s
           else s3Prefix <> s
+          --}
