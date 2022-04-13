@@ -33,7 +33,7 @@ instance FromJSON KinesisRecord where
       _krKinesisSchemaVersion <- o .: "kinesisSchemaVersion"
       dataBase64 <- o .: "data"
       _krRecord <-
-        Kinesis.record <$> (o .: "sequenceNumber") <*> pure (unBase64 dataBase64) <*>
+        Kinesis.newRecord <$> (o .: "sequenceNumber") <*> pure (unBase64 dataBase64) <*>
         (o .: "partitionKey")
       return KinesisRecord {..}
 $(makeLenses ''KinesisRecord)
