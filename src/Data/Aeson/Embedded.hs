@@ -13,8 +13,8 @@ import           Control.Lens.TH
 import           Data.Aeson
 import qualified Data.ByteString.Lazy as LBS
 import           Data.Text.Encoding    (decodeUtf8, encodeUtf8)
-import           Amazonka.Data.Text (FromText (..), ToText (..), fromText,
-                                        takeText)
+import           Amazonka.Data.Text (FromText (..), ToText (..), fromText)
+import qualified Data.Attoparsec.Text as AText
 
 -- | Type for a JSON value embedded within a JSON string value
 newtype Embedded a = Embedded { _unEmbed :: a } deriving (Eq, Show)
@@ -22,7 +22,7 @@ newtype Embedded a = Embedded { _unEmbed :: a } deriving (Eq, Show)
 instance FromJSON a =>
          FromText (Embedded a) where
   parser =
-    fmap Embedded . either fail pure . eitherDecodeStrict . encodeUtf8 =<< takeText
+    fmap Embedded . either fail pure . eitherDecodeStrict . encodeUtf8 =<< AText.takeText
 
 instance FromJSON a =>
          FromJSON (Embedded a) where
