@@ -114,7 +114,10 @@ traverseSns :: (FromJSON a, Applicative m) => (a -> m ()) -> SNSEvent (Embedded 
 traverseSns act = traverseRecords $ \record ->
     act $ record ^. srSns . smMessage . unTextValue . unEmbed
 
+{--
 -- | A specialed version of the 'lambdaMain' entry-point
 -- for handling individual SNS messages
 snsMain :: (FromJSON a, MonadCatch m, MonadIO m) => (a -> m ()) -> m ()
 snsMain = lambdaMain . traverseSns
+
+--}
