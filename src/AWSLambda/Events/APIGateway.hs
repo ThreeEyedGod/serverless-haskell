@@ -42,8 +42,8 @@ import qualified Data.Set                as Set
 import qualified Data.Text               as Text
 import           Data.Text.Encoding      (decodeUtf8, encodeUtf8)
 import           GHC.Generics            (Generic)
-import           Network.AWS.Data.Base64
-import           Network.AWS.Data.Text
+import           Amazonka.Data.Base64
+import           Amazonka.AWS.Data.Text
 import qualified Network.HTTP.Types      as HTTP
 import           Text.Read
 
