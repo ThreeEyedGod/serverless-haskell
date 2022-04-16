@@ -98,7 +98,7 @@ $(makeLenses ''RequestIdentity)
 data Authorizer = Authorizer
   { _aPrincipalId :: !(Maybe Text)
   , _aClaims :: !Object
-  , _aContext :: !Object
+  , _aContext :: !HashMap
   } deriving (Eq, Show)
   
 instance FromJSON Authorizer where
