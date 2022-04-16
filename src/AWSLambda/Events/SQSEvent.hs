@@ -63,7 +63,9 @@ traverseSqs :: (FromJSON a, Applicative m) => (a -> m ()) -> SQSEvent (Embedded 
 traverseSqs act = traverseRecords $ \record ->
     act $ record ^. sqsmBody . unTextValue . unEmbed
 
+{--
 -- | A specialised version of the 'lambdaMain' entry-point
 -- for handling individual SQS messages
 sqsMain :: (FromJSON a, MonadCatch m, MonadIO m) => (a -> m ()) -> m ()
 sqsMain = lambdaMain . traverseSqs
+--}
