@@ -43,7 +43,7 @@ import qualified Data.Text               as Text
 import           Data.Text.Encoding      (decodeUtf8, encodeUtf8)
 import           GHC.Generics            (Generic)
 import           Amazonka.Data.Base64
-import           Amazonka.AWS.Data.Text
+import           Amazonka.Data.Text
 import qualified Network.HTTP.Types      as HTTP
 import           Text.Read
 
