@@ -101,13 +101,13 @@ data Authorizer = Authorizer
   , _aContext :: !Object
   } deriving (Eq, Show)
   
-{-- instance FromJSON Authorizer where
+instance FromJSON Authorizer where
   parseJSON = withObject "Authorizer" $ \o ->
     Authorizer
       <$> o .:? "principalId"
       <*> o .:? "claims" .!= mempty
       <*> (pure $ HashMap.delete "principalId" $ HashMap.delete "claims" o)
-      --}
+     
 $(makeLenses ''Authorizer)
 
 data ProxyRequestContext = ProxyRequestContext
