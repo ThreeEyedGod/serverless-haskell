@@ -123,7 +123,7 @@ data ProxyRequestContext = ProxyRequestContext
   , _prcProtocol     :: !Text
   , _prcAuthorizer   :: !(Maybe Authorizer)
   } deriving (Eq, Show)
--- $(deriveFromJSON (aesonDrop 4 camelCase) ''ProxyRequestContext)
+$(deriveFromJSON (aesonDrop 4 camelCase) ''ProxyRequestContext)
 $(makeLenses ''ProxyRequestContext)
 
 data APIGatewayProxyRequest body = APIGatewayProxyRequest
