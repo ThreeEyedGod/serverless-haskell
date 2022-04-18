@@ -170,11 +170,13 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
     where
       -- Explicit type signatures so that we don't accidentally tell Aeson
       -- to try to parse the wrong sort of structure
-      fromAWSHeaders :: KM.KeyMap HeaderName HeaderValue -> HTTP.RequestHeaders
+      fromAWSHeaders :: KM.KeyMap HeaderValue -> HTTP.RequestHeaders
+      -- fromAWSHeaders :: KM.KeyMap HeaderName HeaderValue -> HTTP.RequestHeaders
       fromAWSHeaders = fmap toHeader . KM.toList
         where
           toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
-      fromAWSQuery :: KM.KeyMap QueryParamName QueryParamValue -> HTTP.Query
+--      fromAWSQuery :: KM.KeyMap QueryParamName QueryParamValue -> HTTP.Query
+      fromAWSQuery :: KM.KeyMap QueryParamValue -> HTTP.Query
       fromAWSQuery = fmap toQueryItem . KM.toList
         where
           toQueryItem = bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
@@ -211,8 +213,9 @@ instance ToText body => ToJSON (APIGatewayProxyResponse body) where
       , "body" .= _agprsBody
       ]
     where
-      toAWSHeaders :: HTTP.ResponseHeaders -> HashMap HeaderName HeaderValue
-      toAWSHeaders = HashMap.fromList . fmap (bimap (decodeUtf8 . CI.original) decodeUtf8)
+      -- toAWSHeaders :: HTTP.ResponseHeaders -> HashMap HeaderName HeaderValue
+      toAWSHeaders :: HTTP.ResponseHeaders -> KM.KeyMap HeaderValue
+      toAWSHeaders = KM.fromList . fmap (bimap (decodeUtf8 . CI.original) decodeUtf8)
 
 instance FromText body => FromJSON (APIGatewayProxyResponse body) where
   parseJSON =
@@ -223,8 +226,9 @@ instance FromText body => FromJSON (APIGatewayProxyResponse body) where
       -- Explicit type signatures so that we don't accidentally tell Aeson
       -- to try to parse the wrong sort of structure
     where
-      fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
-      fromAWSHeaders = fmap toHeader . HashMap.toList
+   --   fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
+      fromAWSHeaders :: KM.KeyMap HeaderValue -> HTTP.RequestHeaders
+      fromAWSHeaders = fmap toHeader . KM.toList
         where
           toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
 
