@@ -134,8 +134,10 @@ data APIGatewayProxyRequest body = APIGatewayProxyRequest
   , _agprqHttpMethod            :: !HTTP.Method
   , _agprqHeaders               :: !HTTP.RequestHeaders
   , _agprqQueryStringParameters :: !HTTP.Query
-  , _agprqPathParameters        :: !(KM.KeyMap PathParamName PathParamValue)
-  , _agprqStageVariables        :: !(KM.KeyMap StageVarName StageVarValue)
+  -- , _agprqPathParameters        :: !(KM.KeyMap PathParamName PathParamValue)
+  -- , _agprqStageVariables        :: !(KM.KeyMap StageVarName StageVarValue)
+  , _agprqPathParameters        :: !(KM.KeyMap PathParamValue)
+  , _agprqStageVariables        :: !(KM.KeyMap StageVarValue)
   , _agprqRequestContext        :: !ProxyRequestContext
   , _agprqBody                  :: !(Maybe (TextValue body))
   } deriving (Show, Generic)
