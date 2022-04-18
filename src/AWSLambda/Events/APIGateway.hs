@@ -37,7 +37,7 @@ import           Data.ByteString         (ByteString)
 import qualified Data.CaseInsensitive    as CI
 import           Data.Function           (on)
 import           Data.HashMap.Strict     (HashMap)
-import qualified Data.HashMap.Strict     as HashMap
+-- import qualified Data.HashMap.Strict     as HashMap
 import qualified Data.Aeson.KeyMap       as KM
 import           Data.IP
 import qualified Data.Set                as Set
