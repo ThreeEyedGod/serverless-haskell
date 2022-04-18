@@ -2,6 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 {-# LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE CPP #-}
 
 {-|
 Module: AWSLambda.Events.APIGateway
@@ -37,6 +38,7 @@ import qualified Data.CaseInsensitive    as CI
 import           Data.Function           (on)
 import           Data.HashMap.Strict     (HashMap)
 import qualified Data.HashMap.Strict     as HashMap
+import qualified Data.Aeson.KeyMap       as KM
 import           Data.IP
 import qualified Data.Set                as Set
 import qualified Data.Text               as Text
@@ -106,7 +108,7 @@ instance FromJSON Authorizer where
     Authorizer
       <$> o .:? "principalId"
       <*> o .:? "claims" .!= mempty
-      <*> (pure $ HashMap.delete "principalId" $ HashMap.delete "claims" o)
+      <*> (pure $ KM.delete "principalId" $ KM.delete "claims" o)
      
 $(makeLenses ''Authorizer)
 
@@ -159,19 +161,19 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
     <*> (encodeUtf8 <$> o .: "httpMethod")
     <*> (fmap fromAWSHeaders <$> o .:? "headers") .!= mempty
     <*> (fmap fromAWSQuery <$> o .:? "queryStringParameters") .!= mempty
-    <*> o .:? "pathParameters" .!= HashMap.empty
-    <*> o .:? "stageVariables" .!= HashMap.empty
+    <*> o .:? "pathParameters" .!= KM.empty
+    <*> o .:? "stageVariables" .!= KM.empty
     <*> o .: "requestContext"
     <*> o .:? "body"
     where
       -- Explicit type signatures so that we don't accidentally tell Aeson
       -- to try to parse the wrong sort of structure
       fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
-      fromAWSHeaders = fmap toHeader . HashMap.toList
+      fromAWSHeaders = fmap toHeader . KM.toList
         where
           toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
       fromAWSQuery :: HashMap QueryParamName QueryParamValue -> HTTP.Query
-      fromAWSQuery = fmap toQueryItem . HashMap.toList
+      fromAWSQuery = fmap toQueryItem . KM.toList
         where
           toQueryItem = bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
 
