@@ -134,8 +134,8 @@ data APIGatewayProxyRequest body = APIGatewayProxyRequest
   , _agprqHttpMethod            :: !HTTP.Method
   , _agprqHeaders               :: !HTTP.RequestHeaders
   , _agprqQueryStringParameters :: !HTTP.Query
-  , _agprqPathParameters        :: !(HashMap PathParamName PathParamValue)
-  , _agprqStageVariables        :: !(HashMap StageVarName StageVarValue)
+  , _agprqPathParameters        :: !(KM.KeyMap PathParamName PathParamValue)
+  , _agprqStageVariables        :: !(KM.KeyMap StageVarName StageVarValue)
   , _agprqRequestContext        :: !ProxyRequestContext
   , _agprqBody                  :: !(Maybe (TextValue body))
   } deriving (Show, Generic)
@@ -168,11 +168,11 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
     where
       -- Explicit type signatures so that we don't accidentally tell Aeson
       -- to try to parse the wrong sort of structure
-      fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
+      fromAWSHeaders :: KM.KeyMap HeaderName HeaderValue -> HTTP.RequestHeaders
       fromAWSHeaders = fmap toHeader . KM.toList
         where
           toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
-      fromAWSQuery :: HashMap QueryParamName QueryParamValue -> HTTP.Query
+      fromAWSQuery :: KM.KeyMap QueryParamName QueryParamValue -> HTTP.Query
       fromAWSQuery = fmap toQueryItem . KM.toList
         where
           toQueryItem = bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
