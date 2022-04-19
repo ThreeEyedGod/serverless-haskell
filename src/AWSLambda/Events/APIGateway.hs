@@ -55,12 +55,12 @@ import           AWSLambda.Handler       (lambdaMain)
 
 type Method = Text
 -- type HeaderName = CI Text
-type HeaderName = Text --- XXX should be CI Text
--- type HeaderValue = Text
-type HeaderValue = Key
-type QueryParamName = Text
--- type QueryParamValue = Text
-type QueryParamValue = Key
+--type HeaderName = Text --- XXX should be CI Text
+type HeaderName = Key
+type HeaderValue = Text
+--type QueryParamName = Text
+type QueryParamName = Key
+type QueryParamValue = Text
 type PathParamName = Text
 type PathParamValue = Text
 type StageVarName = Text
