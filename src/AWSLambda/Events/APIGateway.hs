@@ -178,12 +178,12 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
       -- fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
       fromAWSHeaders = fmap toHeader . KM.toList
         where
-          toHeader = bimap (CI.mk . Key.toText . encodeUtf8) encodeUtf8
+          toHeader = bimap (CI.mk . encodeUtf8 . Key.toText) encodeUtf8
 --      fromAWSQuery :: HashMap QueryParamName QueryParamValue -> HTTP.Query
       fromAWSQuery :: KM.KeyMap QueryParamValue -> HTTP.Query
       fromAWSQuery = fmap toQueryItem . KM.toList
         where
-          toQueryItem = bimap (Key.toText. encodeUtf8) (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
+          toQueryItem = bimap (encodeUtf8 . Key.toText) (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
 
 $(makeLenses ''APIGatewayProxyRequest)
 
