@@ -19,7 +19,7 @@ import qualified Data.Attoparsec.Text as AText
 -- | Type for a JSON value embedded within a JSON string value
 newtype Embedded a = Embedded { _unEmbed :: a } deriving (Eq, Show)
 
-{-- instance FromJSON a =>
+instance FromJSON a =>
          FromText (Embedded a) where
   parser =
     fmap Embedded . either fail pure . eitherDecodeStrict . encodeUtf8 =<< AText.takeText
@@ -29,7 +29,6 @@ instance FromJSON a =>
          FromJSON (Embedded a) where
   parseJSON v = either fail pure . fromText =<< parseJSON v
   
-  --}
 
 instance ToJSON a => ToText (Embedded a) where
   toText = decodeUtf8 . LBS.toStrict . encode . _unEmbed
