@@ -33,6 +33,7 @@ import           Data.Aeson.TH           (deriveFromJSON)
 import           Data.Aeson.Embedded
 import           Data.Aeson.TextValue
 import           Data.Aeson.Types        (Parser)
+import           Data.Aeson (Key)
 import           Data.ByteString         (ByteString)
 import qualified Data.CaseInsensitive    as CI
 import           Data.Function           (on)
@@ -54,9 +55,11 @@ import           AWSLambda.Handler       (lambdaMain)
 type Method = Text
 -- type HeaderName = CI Text
 type HeaderName = Text --- XXX should be CI Text
-type HeaderValue = Text
+-- type HeaderValue = Text
+type HeaderValue = Key
 type QueryParamName = Text
-type QueryParamValue = Text
+-- type QueryParamValue = Text
+type QueryParamValue = Key
 type PathParamName = Text
 type PathParamValue = Text
 type StageVarName = Text
@@ -171,11 +174,11 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
       -- Explicit type signatures so that we don't accidentally tell Aeson
       -- to try to parse the wrong sort of structure
       fromAWSHeaders :: KM.KeyMap HeaderValue -> HTTP.RequestHeaders
-      -- fromAWSHeaders :: KM.KeyMap HeaderName HeaderValue -> HTTP.RequestHeaders
+      -- fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
       fromAWSHeaders = fmap toHeader . KM.toList
         where
           toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
---      fromAWSQuery :: KM.KeyMap QueryParamName QueryParamValue -> HTTP.Query
+--      fromAWSQuery :: HashMap QueryParamName QueryParamValue -> HTTP.Query
       fromAWSQuery :: KM.KeyMap QueryParamValue -> HTTP.Query
       fromAWSQuery = fmap toQueryItem . KM.toList
         where
