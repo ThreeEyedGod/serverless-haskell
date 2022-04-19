@@ -34,6 +34,7 @@ import           Data.Aeson.Embedded
 import           Data.Aeson.TextValue
 import           Data.Aeson.Types        (Parser)
 import           Data.Aeson (Key)
+import qualified Data.Aeson.Key as Key
 import           Data.ByteString         (ByteString)
 import qualified Data.CaseInsensitive    as CI
 import           Data.Function           (on)
@@ -177,12 +178,13 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
       -- fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
       fromAWSHeaders = fmap toHeader . KM.toList
         where
-          toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
+          -- toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
+          toHeader = Key.fromText . bimap (CI.mk . encodeUtf8) encodeUtf8
 --      fromAWSQuery :: HashMap QueryParamName QueryParamValue -> HTTP.Query
       fromAWSQuery :: KM.KeyMap QueryParamValue -> HTTP.Query
       fromAWSQuery = fmap toQueryItem . KM.toList
         where
-          toQueryItem = bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
+          toQueryItem = Key.fromText . bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
 
 $(makeLenses ''APIGatewayProxyRequest)
 
