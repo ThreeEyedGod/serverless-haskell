@@ -23,7 +23,7 @@ instance FromJSON a =>
          FromText (Embedded a) where
 --  parser =
     fromText = 
-    fmap Embedded . either fail pure . eitherDecodeStrict . encodeUtf8 =<< AText.takeText
+       fmap Embedded . either fail pure . eitherDecodeStrict . encodeUtf8 =<< AText.takeText
     
 
 instance FromJSON a =>
