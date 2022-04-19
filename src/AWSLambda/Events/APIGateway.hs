@@ -176,15 +176,15 @@ instance FromText body => FromJSON (APIGatewayProxyRequest body) where
       -- to try to parse the wrong sort of structure
       fromAWSHeaders :: KM.KeyMap HeaderValue -> HTTP.RequestHeaders
       -- fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
-      fromAWSHeaders = fmap toHeader . KM.toList
+      fromAWSHeaders = fmap Key.fromText . toHeader . KM.toList
         where
           -- toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
-          toHeader = Key.fromText . bimap (CI.mk . encodeUtf8) encodeUtf8
+          toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
 --      fromAWSQuery :: HashMap QueryParamName QueryParamValue -> HTTP.Query
       fromAWSQuery :: KM.KeyMap QueryParamValue -> HTTP.Query
-      fromAWSQuery = fmap toQueryItem . KM.toList
+      fromAWSQuery = fmap Key.fromText . toQueryItem . KM.toList
         where
-          toQueryItem = Key.fromText . bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
+          toQueryItem = bimap encodeUtf8 (\x -> if Text.null x then Nothing else Just . encodeUtf8 $ x)
 
 $(makeLenses ''APIGatewayProxyRequest)
 
