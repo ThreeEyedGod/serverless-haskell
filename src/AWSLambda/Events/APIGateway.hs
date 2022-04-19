@@ -219,7 +219,7 @@ instance ToText body => ToJSON (APIGatewayProxyResponse body) where
     where
       -- toAWSHeaders :: HTTP.ResponseHeaders -> HashMap HeaderName HeaderValue
       toAWSHeaders :: HTTP.ResponseHeaders -> KM.KeyMap HeaderValue
-      toAWSHeaders = KM.fromList . fmap (bimap (decodeUtf8 . CI.original) decodeUtf8)
+      toAWSHeaders = KM.fromList . fmap (bimap (decodeUtf8 . CI.original . Key.toText) decodeUtf8)
 
 instance FromText body => FromJSON (APIGatewayProxyResponse body) where
   parseJSON =
@@ -232,7 +232,7 @@ instance FromText body => FromJSON (APIGatewayProxyResponse body) where
     where
    --   fromAWSHeaders :: HashMap HeaderName HeaderValue -> HTTP.RequestHeaders
       fromAWSHeaders :: KM.KeyMap HeaderValue -> HTTP.RequestHeaders
-      fromAWSHeaders = fmap toHeader . KM.toList
+      fromAWSHeaders = fmap toHeader . KM.toList . Key.toText
         where
           toHeader = bimap (CI.mk . encodeUtf8) encodeUtf8
 
