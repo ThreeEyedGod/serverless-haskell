@@ -18,7 +18,7 @@ import qualified Data.Attoparsec.Text as AText
 import           Data.Text                         (Text)
 
 
-takeText :: Text
+takeText :: Text -> Text
 takeText = pure
 
 -- | Type for a JSON value embedded within a JSON string value
